@@ -122,7 +122,8 @@ SELECT CONVERT(VarChar, GETDATE(), 104)  --строковое значение даты
 SELECT DATEPART(MONTH,SYSDATETIME())
 SELECT DATENAME(MONTH,SYSDATETIME()) --исп. действующий €зык сессии
 SELECT DATEFROMPARTS(2012, 02, 12)
-SELECT EOMONTH(SYSDATETIME()) -- посл. день мес€ца
+SELECT EOMONTH(SYSDATETIME()) as End_of_current_month -- посл. день мес€ца
+SELECT DATEFROMPARTS(YEAR(SYSDATETIME()), 12, 31) as End_of_year --посл. день года
 
 --‘ункции добавлени€ или вычитани€ даты
 SELECT DATEADD(year, 1, '20120212') --добавит 1 год к дате
@@ -134,3 +135,26 @@ SELECT DATEDIFF(day, '20110212', '20120212') -- 365 дней
 SELECT 
 SWITCHOFFSET('20130212 14:00:00.0000000 -08:00', '-05:00') AS [SWITCHOFFSET], 
 TODATETIMEOFFSET('20130212 14:00:00.0000000', '-08:00') AS [TODATETIMEOFFSET]; 
+
+--все функции одном запросе
+DECLARE @dt datetime = getdate()
+SELECT year(@dt) AS [√од]
+, month(@dt) AS [ћес€ц]
+, datepart(quarter, @dt) AS [ вартал]
+, datename(month, @dt) AS [ћес€ц]
+, format(@dt,'MMMM','ru-ru') AS [ћес€ц Ru]
+, convert(varchar, @dt, 104) AS [ƒата]
+, convert(varchar, @dt, 112) AS [ƒата]
+, datetrunc(month, @dt) AS begin_of_month
+, eomonth(@dt) AS end_of_month --SQL2022
+--дата в условии where - удобен формат 'yyyyMMdd': convert(varchar, <дата>, 112)
+SELECT * FROM Sales.Orders WHERE OrderDate ='20150527'
+
+--задание
+SELECT productid, RIGHT(REPLICATE('0',10)+CAST(productid as varchar(10)),10) as str_productid
+FROM Production.Products
+--SQL 2012
+SELECT productid, 
+ FORMAT(productid, 'd10') AS str_productid 
+FROM Production.Products;
+
