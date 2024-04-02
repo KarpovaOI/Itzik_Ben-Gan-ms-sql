@@ -13,7 +13,8 @@ FROM dbo.Nums AS D
  CROSS JOIN dbo.Nums AS S 
 WHERE D.n <= 7 
  AND S.N <= 3 
-ORDER BY theday, shiftno; 
+ORDER BY theday, shiftno; 
+
 --INNER JOIN - Внутреннее соединение
 /*С помощью внутренних соединений можно сопоставлять строки из двух таблиц по предикату, как правило, сравнивая значение первичного ключа в одной таблице с внешним ключом в другой*/
 --типовая задача - все строки которые есть в обоих таблицах
@@ -42,7 +43,9 @@ SELECT S.companyname AS supplier, S.country,
 FROM Production.Suppliers AS S 
  LEFT OUTER JOIN Production.Products AS P 
  ON S.supplierid = P.supplierid 
-WHERE S.country = N'Japan'; --ON сопоставляет строки, не фильтрует  WHERE фильтрует /*Другими словами, по отношению к сохраненной стороне соединения, предложение ON не является конечным; конечным будет 
+WHERE S.country = N'Japan'; 
+--ON сопоставляет строки, не фильтрует  WHERE фильтрует 
+/*Другими словами, по отношению к сохраненной стороне соединения, предложение ON не является конечным; конечным будет 
 предложение WHERE. Поэтому если вы сомневаетесь, указывать предикат в предложении ON или WHERE, задайте себе вопрос: 
 для чего будет использоваться предикат — для фильтрации или сопоставления? Будет ли он конечным */
 
@@ -77,7 +80,9 @@ FROM Production.Suppliers AS S
  INNER JOIN Production.Categories AS C 
  ON C.categoryid = P.categoryid) 
  ON S.supplierid = P.supplierid 
-WHERE S.country = N'Japan'; --или просто: SELECT S.companyname AS supplier, S.country, 
+WHERE S.country = N'Japan'; 
+--или просто:
+ SELECT S.companyname AS supplier, S.country, 
  P.productid, P.productname, P.unitprice, 
  C.categoryname 
 FROM Production.Suppliers AS S 

@@ -126,3 +126,5 @@ SELECT orderid, empid, shipperid, shippeddate
 FROM Sales.Orders 
 WHERE custid = 77 
 ORDER BY shipperid, shippeddate DESC, orderid DESC;
+
+--детерминированный запрос — это запрос, который имеет только один правильный результат
